@@ -21,6 +21,10 @@ if (missingEnvVars.length > 0) {
     process.exit(1);
 }
 
+if(!process.env.TWITTER_FALLBACK_DESCRIPTION) {
+    process.env.TWITTER_FALLBACK_DESCRIPTION = ''
+}
+
 const Twitter = require("twitter");
 
 const client = new Twitter({
@@ -42,8 +46,8 @@ const cachePath = join(__dirname, "..", "trackCache.json");
 function formatForTwitter(text) {
     text = text.trim();
 
-    if (text.length > 41) {
-        return `🎶 ${text.slice(0, 41)}... 🎶`;
+    if (text.length > 151) {
+        return `🎶 ${text.slice(0, 151)}... 🎶`;
     } else {
         return `🎶 ${text} 🎶`;
     }
@@ -126,7 +130,7 @@ async function run() {
                 let name;
                 try {
                     name = await setTwitterDescription(
-                        process.env.TWITTER_FALLBACK_DESCRIPTION ?? ''
+                        process.env.TWITTER_FALLBACK_DESCRIPTION
                     );
                 }catch (e) {
                     console.log(`Something went wrong setting your twitter username: ${JSON.stringify(e)}`);
