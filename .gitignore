@@ -1,0 +1,4 @@
+node_modules/
+trackCache.json
+.env
+.idea/
